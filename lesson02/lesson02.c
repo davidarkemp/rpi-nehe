@@ -212,11 +212,12 @@ int main ()
 
    char vShaderSource[] =
 	   "attribute vec4 vPosition; \n"
-          // "uniform float offset; \n"
+           "uniform vec4 offset; \n"
+           
 	   "void main() \n"
 	   "{ \n"
-	   //" vec4 nPosition = (vPosition+offset); \n"
-	   " gl_Position = vPosition; \n"
+	   " vec4 nPosition = (vPosition*vec4(0.25, 0.25, 0.25, 1.0))+offset; \n"
+	   " gl_Position = nPosition; \n"
 	   "} \n";
 
    //everything is black
@@ -254,11 +255,11 @@ int main ()
 	glDeleteProgram(programObj);
 	return -1;
    }
-//   GLint offset = glGetUniformLocation(programObj, "offset");
+   GLint offset = glGetUniformLocation(programObj, "offset");
    check();
 
    GLfloat vVertices[] = 
-   	{ 0.25f, -0.25f, 0.0f,
+   	{ 0.f, -0.25f, 0.0f,
 	  0.5f,  0.25f, 0.0f,
 	  0.75f, -0.25f, 0.0f
 	  
@@ -269,8 +270,9 @@ int main ()
 
 	
    glUseProgram(programObj);
-
-   //glUniform1f(offset, 0.5);
+   GLfloat offet_vector[] = { 0.5f, 0.0f, 0.0f, 0.0f };
+   	
+   glUniform4fv(offset, 4, offet_vector);
    glVertexAttribPointer(0,3, GL_FLOAT, GL_FALSE, 0, vVertices);
    glEnableVertexAttribArray(0);
    glDrawArrays(GL_TRIANGLES, 0, 3);
@@ -280,11 +282,16 @@ int main ()
 
    GLfloat square[] = 
    	{ 
-          -0.75f, -0.25f, 0.0f, // Bottom Left
-	  -0.25f, -0.25f, 0.0f, // Bottom Right
-          -0.75f,  0.25f, 0.0f, // Top Left
-	  -0.25f,  0.25f, 0.0f  //Top Right
+          -1.00f, -1.00f, 0.0f, // Bottom Left
+	   1.00f, -1.00f, 0.0f, // Bottom Right
+          -1.00f,  1.00f, 0.0f, // Top Left
+	   1.00f,  1.00f, 0.0f  //Top Right
 	};
+
+   
+   GLfloat sqoffet_vector[] = { -0.5f, 0.0f, 0.0f, 0.0f };
+   	
+   glUniform4fv(offset, 4, sqoffet_vector);
    //glUniform1f(offset, -0.5);
    glVertexAttribPointer(0,3, GL_FLOAT, GL_FALSE, 0, square);
    glEnableVertexAttribArray(0);
