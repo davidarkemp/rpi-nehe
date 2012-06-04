@@ -1,0 +1,4 @@
+A port of the nehe opengl[1] tuts to opengl es 2.0 for raspberry pi. Inspired (and possibly aided) by the android port at [2]
+
+1: http://nehe.gamedev.net
+2: http://insanitydesign.com/wp/projects/nehe-android-ports/
